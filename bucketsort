@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+void bucketSort(std::vector<int>& arr, int minVal, int maxVal) {
+    int numBuckets = maxVal - minVal + 1;
+    std::vector<std::vector<int>> buckets(numBuckets);
+
+    for (int num : arr) {
+        int bucketIdx = (num - minVal) / numBuckets;
+        buckets[bucketIdx].push_back(num);
+    }
+
+    for (auto& bucket : buckets) {
+        std::sort(bucket.begin(), bucket.end());
+    }
+
+    int idx = 0;
+    for (auto& bucket : buckets) {
+        for (int num : bucket) {
+            arr[idx++] = num;
+        }
+    }
+}
+
+int main() {
+    std::vector<int> arr = {88, 56, 62, 34, 105, 80, 3, 67};
+
+    std::cout << "Array antes da ordenacao: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    int minVal = *std::min_element(arr.begin(), arr.end());
+    int maxVal = *std::max_element(arr.begin(), arr.end());
+
+    bucketSort(arr, minVal, maxVal);
+
+    std::cout << "Array apos a ordenacao: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
